@@ -25,17 +25,18 @@ const expSession = require("express-session") ({
     }    
 });
 
-passport.serializeUser(User.serializeUser());       //session encoding
-passport.deserializeUser(User.deserializeUser());   //session decoding
 passport.use(new LocalStrategy(User.authenticate()));
+app.use(expSession);
+app.use(express.static("public"));
 app.set("view engine","ejs");
 app.use(bodyParser.urlencoded(
       { extended:true }
 ))
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(expSession);
-app.use(express.static("public"));
+passport.serializeUser(User.serializeUser());       //session encoding
+passport.deserializeUser(User.deserializeUser());   //session decoding
+
 
 
 //=======================
